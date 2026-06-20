@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ZENITH studio — استوديو هويات بصرية</title>
+<meta name="description" content="ZENITH studio — استوديو هويات بصرية. نبني للعلامات قصةً تُروى وحضوراً لا يُنسى، من الفكرة إلى التنفيذ." />
+
+<!-- ============================ الخطوط / Fonts ============================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+/* =====================================================================
+   نظام التصميم — Design Tokens  (ZENITH studio)
+   عالم بصري داكن، تباين عالٍ، فخامة هادئة.
+   الفكرة المميِّزة: كل مشروع يحمل لون علامته الخاص (--card-accent).
+   ===================================================================== */
+:root{
+  --ink:        #0B0B0C;
+  --ink-2:      #111114;
+  --ink-3:      #16161B;
+  --bone:       #ECE7DE;
+  --bone-2:     #C7C1B6;
+  --bone-mute:  #8C877D;
+  --line:       rgba(236,231,222,.10);
+  --line-2:     rgba(236,231,222,.20);
+  --accent:     #C9A77C;
+
+  --serif-lat:  "Instrument Serif", Georgia, serif;
+  --serif-ar:   "Amiri", "Times New Roman", serif;
+  --body:       "Tajawal", system-ui, -apple-system, sans-serif;
+  --mono:       "Space Mono", ui-monospace, monospace;
+
+  --ease:       cubic-bezier(.2,.7,.2,1);
+  --maxw:       1180px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:96px;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  background:var(--ink);
+  color:var(--bone);
+  font-family:var(--body);
+  font-weight:400;
+  line-height:1.7;
+  letter-spacing:.1px;
+  overflow-x:hidden;
+  position:relative;
+  min-height:100vh;
+}
+
+.grain{
+  position:fixed; inset:0; z-index:9999; pointer-events:none;
+  opacity:.035; mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection{ background:var(--accent); color:var(--ink); }
+a{ color:inherit; text-decoration:none; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
+
+.wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:clamp(20px, 5vw, 56px); }
+
+.eyebrow{
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--bone-mute);
+  display:inline-flex; align-items:center; gap:.7em;
+}
+.eyebrow::before{ content:""; width:26px; height:1px; background:var(--line-2); }
+
+/* =====================================================================
+   الهيدر — Header
+   ===================================================================== */
+.site-header{
+  position:fixed; inset-block-start:0; inset-inline:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px clamp(20px,5vw,56px);
+  transition:background .4s var(--ease), border-color .4s var(--ease), padding .4s var(--ease);
+  border-block-end:1px solid transparent;
+}
+.site-header.scrolled{
+  background:rgba(11,11,12,.72);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-block-end:1px solid var(--line); padding-block:13px;
+}
+
+.wordmark{ display:flex; align-items:flex-end; gap:.5em; line-height:1; }
+.wm-zenith{ font-family:var(--serif-lat); font-size:1.75rem; letter-spacing:.04em; }
+.wm-studio{
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--bone-mute); padding-block-end:.32em;
+}
+
+.nav{ display:flex; align-items:center; gap:clamp(14px,2.2vw,30px); }
+.nav-links{ display:flex; gap:clamp(16px,2vw,30px); }
+.nav-links a{ font-size:.92rem; color:var(--bone-2); position:relative; padding-block:4px; transition:color .25s var(--ease); }
+.nav-links a::after{ content:""; position:absolute; inset-block-end:-2px; inset-inline-start:0; width:0; height:1px; background:var(--accent); transition:width .3s var(--ease); }
+.nav-links a:hover{ color:var(--bone); }
+.nav-links a:hover::after{ width:100%; }
+
+.social{ display:flex; align-items:center; gap:6px; }
+.icon-btn{
+  display:grid; place-items:center; width:40px; height:40px;
+  border:1px solid var(--line-2); border-radius:50%; color:var(--bone-2);
+  transition:color .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease), background .25s var(--ease);
+}
+.icon-btn svg{ width:18px; height:18px; }
+.icon-btn:hover{ color:var(--ink); background:var(--bone); border-color:var(--bone); transform:translateY(-2px); }
+
+.btn{
+  display:inline-flex; align-items:center; gap:.6em;
+  font-family:var(--body); font-weight:500; font-size:.95rem;
+  padding:.85em 1.5em; border-radius:100px; cursor:pointer;
+  border:1px solid transparent; white-space:nowrap;
+  transition:transform .25s var(--ease), background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+.btn svg{ width:18px; height:18px; }
+.btn-solid{ background:var(--bone); color:var(--ink); }
+.btn-solid:hover{ transform:translateY(-2px); background:#fff; }
+.btn-ghost{ background:transparent; color:var(--bone); border-color:var(--line-2); }
+.btn-ghost:hover{ border-color:var(--bone); transform:translateY(-2px); }
+.btn-sm{ padding:.6em 1.1em; font-size:.88rem; }
+.header-cta{ display:inline-flex; }
+
+/* =====================================================================
+   الواجهة الافتتاحية — Hero
+   ===================================================================== */
+.hero{
+  min-height:100svh; display:flex; flex-direction:column; justify-content:center;
+  padding-block:clamp(120px,16vh,200px) clamp(60px,9vh,110px);
+  position:relative; overflow:hidden;
+}
+.hero::before{
+  content:""; position:absolute; z-index:0; inset-block-start:14%; inset-inline-end:-10%;
+  width:60vw; height:60vw; max-width:760px; max-height:760px;
+  background:radial-gradient(circle, rgba(201,167,124,.10), transparent 62%); pointer-events:none;
+}
+.hero-inner{ position:relative; z-index:1; max-width:960px; }
+.hero .eyebrow{ margin-block-end:clamp(22px,4vh,38px); }
+.hero-title{
+  font-family:var(--serif-ar); font-weight:700;
+  font-size:clamp(2.7rem, 7.2vw, 6.1rem); line-height:1.07; letter-spacing:-.01em;
+  margin-block-end:clamp(20px,3.2vh,30px);
+}
+.hero-title .em{ font-style:italic; color:var(--accent); font-weight:400; }
+.hero-dynamic{
+  font-family:var(--serif-ar); font-size:clamp(1.5rem, 3.6vw, 2.6rem); line-height:1.3;
+  color:var(--bone-2); margin-block-end:clamp(26px,4vh,40px);
+}
+.rotator{ display:inline-block; font-style:italic; color:var(--accent); min-width:5ch; transition:opacity .45s var(--ease), transform .45s var(--ease); }
+.rotator.swap{ opacity:0; transform:translateY(14px); }
+.hero-sub{ font-size:clamp(1rem,1.25vw,1.18rem); color:var(--bone-2); max-width:54ch; margin-block-end:clamp(34px,5vh,48px); }
+.hero-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; }
+.availability{
+  display:inline-flex; align-items:center; gap:.6em; font-family:var(--mono); font-size:.72rem;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--bone-mute); margin-inline-start:6px;
+}
+.dot{ width:8px; height:8px; border-radius:50%; background:#7BBF7B; box-shadow:0 0 0 0 rgba(123,191,123,.6); animation:pulse 2.4s infinite; }
+@keyframes pulse{ 0%{ box-shadow:0 0 0 0 rgba(123,191,123,.55);} 70%{ box-shadow:0 0 0 8px rgba(123,191,123,0);} 100%{ box-shadow:0 0 0 0 rgba(123,191,123,0);} }
+
+/* =====================================================================
+   إطار الأقسام — Section frame
+   ===================================================================== */
+.section{ padding-block:clamp(80px,13vh,140px); }
+.section-head{ display:flex; flex-direction:column; gap:18px; max-width:760px; margin-block-end:clamp(48px,7vh,72px); }
+.section-title{ font-family:var(--serif-ar); font-weight:700; font-size:clamp(2rem,4.6vw,3.4rem); line-height:1.12; letter-spacing:-.01em; }
+.section-intro{ color:var(--bone-2); font-size:1.05rem; max-width:58ch; }
+
+/* =====================================================================
+   دراسة الحالة المميّزة — Featured Case Study (The Root)
+   ===================================================================== */
+.featured{
+  --card-accent:#8A9A6B;
+  display:grid; grid-template-columns:1fr; gap:clamp(28px,3.5vw,52px);
+  padding:clamp(22px,3vw,40px);
+  border:1px solid var(--line); border-radius:24px;
+  background:
+    radial-gradient(120% 130% at 85% 0%, color-mix(in srgb, var(--card-accent) 14%, transparent), transparent 55%),
+    var(--ink-2);
+  margin-block-end:clamp(56px,8vh,88px);
+}
+@media(min-width:920px){
+  .featured{ grid-template-columns:.92fr 1.18fr; align-items:center; }
+}
+.featured-info .eyebrow{ color:var(--card-accent); }
+.featured-info .eyebrow::before{ background:color-mix(in srgb, var(--card-accent) 60%, transparent); }
+.feat-title{ font-family:var(--serif-ar); font-weight:700; font-size:clamp(1.9rem,3.4vw,2.8rem); line-height:1.18; margin-block:18px 14px; }
+.feat-title .lat{ font-family:var(--serif-lat); font-style:italic; }
+.feat-desc{ color:var(--bone-2); font-size:1.02rem; line-height:1.7; margin-block-end:24px; max-width:46ch; }
+.feat-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-block-end:26px; }
+.tag{
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--bone-2); border:1px solid var(--line-2); border-radius:100px; padding:.4em .9em;
+}
+.palette{ display:flex; align-items:center; gap:10px; margin-block-end:30px; }
+.palette .label{ font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--bone-mute); margin-inline-end:4px; }
+.swatch{ width:30px; height:30px; border-radius:50%; background:var(--c); border:1px solid rgba(255,255,255,.16); }
+
+.feat-media{ display:grid; gap:clamp(12px,1.6vw,18px); }
+.feat-hero{
+  width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:14px;
+  border:1px solid var(--line); cursor:zoom-in; display:block;
+  transition:transform .5s var(--ease);
+}
+.feat-thumbs{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(12px,1.6vw,18px); }
+.feat-thumb{
+  width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px;
+  border:1px solid var(--line); cursor:zoom-in; display:block;
+  transition:transform .5s var(--ease), border-color .3s var(--ease);
+}
+.feat-thumb:hover, .feat-hero:hover{ transform:translateY(-3px); border-color:color-mix(in srgb, var(--card-accent) 50%, transparent); }
+
+/* =====================================================================
+   شبكة بقية الأعمال — Work Grid
+   ===================================================================== */
+.work-sub{ font-family:var(--mono); font-size:.74rem; letter-spacing:.18em; text-transform:uppercase; color:var(--bone-mute); margin-block-end:24px; display:flex; align-items:center; gap:.8em; }
+.work-sub::before{ content:""; width:26px; height:1px; background:var(--line-2); }
+
+.grid{ display:grid; grid-template-columns:1fr; gap:clamp(20px,2.6vw,30px); }
+@media(min-width:780px){ .grid{ grid-template-columns:repeat(2,1fr); } }
+
+.card{
+  --card-accent:var(--bone);
+  display:flex; flex-direction:column; background:var(--ink-2);
+  border:1px solid var(--line); border-radius:18px; overflow:hidden; position:relative;
+  transition:transform .45s var(--ease), border-color .45s var(--ease), box-shadow .45s var(--ease);
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:color-mix(in srgb, var(--card-accent) 45%, transparent);
+  box-shadow:0 24px 60px -28px color-mix(in srgb, var(--card-accent) 55%, transparent);
+}
+.card-cover{
+  position:relative; aspect-ratio:5/4; display:grid; place-items:center; overflow:hidden;
+  background:
+    radial-gradient(120% 100% at 75% 0%, color-mix(in srgb, var(--card-accent) 26%, transparent), transparent 60%),
+    linear-gradient(160deg, var(--ink-3), var(--ink-2));
+}
+.cover-mark{ font-family:var(--serif-lat); font-size:clamp(3rem,8vw,5.2rem); letter-spacing:.04em; color:var(--card-accent); opacity:.92; transition:transform .6s var(--ease); }
+.card:hover .cover-mark{ transform:scale(1.04); }
+.cover-index{ position:absolute; inset-block-start:18px; inset-inline-start:20px; font-family:var(--mono); font-size:.72rem; letter-spacing:.18em; color:var(--card-accent); opacity:.75; }
+.cover-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+
+.card-body{ padding:24px clamp(20px,2.4vw,28px) 26px; display:flex; flex-direction:column; gap:12px; flex:1; }
+.card-meta{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.card-cat{ font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--card-accent); }
+.card-idx{ font-family:var(--mono); font-size:.7rem; color:var(--bone-mute); }
+.card-title{ font-family:var(--serif-ar); font-weight:700; font-size:clamp(1.45rem,2.4vw,1.9rem); line-height:1.2; }
+.card-desc{ color:var(--bone-2); font-size:.98rem; line-height:1.65; flex:1; }
+.card-link{ display:inline-flex; align-items:center; gap:.55em; font-family:var(--mono); font-size:.78rem; letter-spacing:.06em; color:var(--bone); margin-block-start:6px; }
+.card-link .arrow{ width:18px; height:18px; transition:transform .3s var(--ease); }
+.card:hover .card-link{ color:var(--card-accent); }
+.card:hover .card-link .arrow{ transform:translateX(-5px); }
+
+/* =====================================================================
+   الأسلوب — Process
+   ===================================================================== */
+.steps{ display:grid; grid-template-columns:1fr; gap:clamp(24px,3vw,40px); }
+@media(min-width:760px){ .steps{ grid-template-columns:repeat(3,1fr); } }
+.step{ border-block-start:1px solid var(--line-2); padding-block-start:22px; }
+.step-num{ font-family:var(--serif-lat); font-size:2.4rem; color:var(--accent); line-height:1; }
+.step-title{ font-family:var(--serif-ar); font-weight:700; font-size:1.5rem; margin-block:14px 8px; }
+.step-text{ color:var(--bone-2); font-size:.98rem; }
+
+/* =====================================================================
+   تواصل — Contact
+   ===================================================================== */
+.contact{ text-align:center; }
+.contact .section-head{ margin-inline:auto; align-items:center; text-align:center; }
+.contact-title{ font-family:var(--serif-ar); font-weight:700; font-size:clamp(2.2rem,5.4vw,4rem); line-height:1.12; letter-spacing:-.01em; }
+.contact-sub{ color:var(--bone-2); font-size:1.1rem; max-width:48ch; margin:20px auto 38px; }
+.contact-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; }
+
+/* =====================================================================
+   الفوتر — Footer
+   ===================================================================== */
+.site-footer{ border-block-start:1px solid var(--line); padding-block:44px 36px; }
+.footer-inner{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px; }
+.footer-tag{ font-family:var(--serif-ar); font-size:1.2rem; color:var(--bone-2); }
+.footer-tag .lat{ font-family:var(--serif-lat); font-style:italic; }
+.footer-social{ display:flex; gap:6px; }
+.footer-bottom{ margin-block-start:28px; padding-block-start:22px; border-block-start:1px solid var(--line); }
+.footer-copy{ font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; color:var(--bone-mute); }
+
+/* =====================================================================
+   صندوق التكبير — Lightbox
+   ===================================================================== */
+.lightbox{ position:fixed; inset:0; z-index:1000; display:none; place-items:center; background:rgba(8,8,9,.93); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); padding:clamp(20px,5vw,64px); }
+.lightbox.open{ display:grid; }
+.lb-img{ max-width:94vw; max-height:88vh; object-fit:contain; border-radius:10px; box-shadow:0 30px 80px -20px rgba(0,0,0,.6); }
+.lb-close{
+  position:fixed; inset-block-start:22px; inset-inline-end:22px; width:46px; height:46px;
+  display:grid; place-items:center; border-radius:50%; cursor:pointer;
+  background:rgba(236,231,222,.1); border:1px solid var(--line-2); color:var(--bone);
+  font-size:1.6rem; line-height:1; transition:background .25s var(--ease); 
+}
+.lb-close:hover{ background:rgba(236,231,222,.2); }
+
+/* =====================================================================
+   الكشف عند التمرير — Scroll reveal
+   ===================================================================== */
+[data-reveal]{ opacity:0; transform:translateY(26px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+[data-reveal].in{ opacity:1; transform:none; }
+[data-reveal][data-d="1"]{ transition-delay:.08s; }
+[data-reveal][data-d="2"]{ transition-delay:.16s; }
+[data-reveal][data-d="3"]{ transition-delay:.24s; }
+
+/* =====================================================================
+   الاستجابة — Responsive
+   ===================================================================== */
+@media(max-width:860px){ .nav-links{ display:none; } }
+@media(max-width:520px){
+  .social .icon-btn{ display:none; }   /* الهواتف الصغيرة: زر واتساب فقط بالهيدر — الأيقونات في الفوتر */
+  .header-cta .btn-text{ display:none; }
+  .header-cta .btn{ padding-inline:.85em; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation:none !important; transition:none !important; }
+  [data-reveal]{ opacity:1; transform:none; }
+  .rotator{ transition:none; }
+}
+
+/* ===== معرض دراسات حالة العلامات (BLAZE / ÉCLAT) — إضافة ===== */
+.feat-hero.is-tall{ aspect-ratio:4/3; }
+.feat-thumbs.is-auto{ grid-template-columns:repeat(auto-fill, minmax(118px,1fr)); }
+.feat-thumb.is-portrait{ aspect-ratio:3/4; background:#0E0E11; }
+@media(max-width:520px){ .feat-thumbs.is-auto{ grid-template-columns:repeat(auto-fill, minmax(98px,1fr)); } }
+</style>
+</head>
+
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============================ الهيدر ============================ -->
+<header class="site-header" id="header">
+  <a class="wordmark" href="#top" aria-label="ZENITH studio — الصفحة الرئيسية">
+    <span class="wm-zenith">Zenith</span>
+    <span class="wm-studio">studio</span>
+  </a>
+
+  <div class="nav">
+    <nav class="nav-links" aria-label="التنقّل">
+      <a href="#work">الأعمال</a>
+      <a href="#process">الأسلوب</a>
+      <a href="#contact">تواصل</a>
+    </nav>
+
+    <div class="social">
+      <!-- إنستغرام (رابط نظيف بلا باراميترات تتبّع) -->
+      <a class="icon-btn" href="https://www.instagram.com/zenith.mi2526" target="_blank" rel="noopener" aria-label="إنستغرام">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="icon-btn" href="https://www.tiktok.com/@zenith6691" target="_blank" rel="noopener" aria-label="تيك توك / TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.3v12.43a2.59 2.59 0 1 1-2.59-2.59c.27 0 .53.04.78.12V9.62a5.96 5.96 0 0 0-.78-.05 5.9 5.9 0 1 0 5.9 5.9V9.01a7.5 7.5 0 0 0 4.28 1.34V7.05a4.28 4.28 0 0 1-3.23-1.23z"/></svg>
+      </a>
+      <!-- لينكدإن -->
+      <a class="icon-btn" href="https://www.linkedin.com/in/zenith-studio-46a124418" target="_blank" rel="noopener" aria-label="لينكدإن / LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 9.67H5.67V18h2.67V9.67zM7 5.5a1.55 1.55 0 100 3.1 1.55 1.55 0 000-3.1zM18.33 18v-4.57c0-2.45-1.31-3.59-3.06-3.59-1.41 0-2.04.78-2.39 1.33v-1.14H10.2V18h2.67v-4.39c0-1.16.22-2.28 1.65-2.28 1.41 0 1.43 1.32 1.43 2.36V18h2.68z"/></svg>
+      </a>
+      <!-- Behance — ✦✦ أرسِل لي رابط ملفك ليُوضَع هنا: https://www.behance.net/اسم_المستخدم -->
+      <a class="icon-btn" href="https://www.behance.net/" target="_blank" rel="noopener" aria-label="بيهانس / Behance">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.2 11.3c.8-.4 1.2-1 1.2-1.9 0-1.7-1.3-2.4-3-2.4H2v9.9h4.5c1.9 0 3.4-.8 3.4-2.8 0-1.2-.6-2.1-1.7-2.4zM4.1 8.6h2c.7 0 1.3.2 1.3 1s-.5 1.1-1.3 1.1H4.1V8.6zm2.2 6.2H4.1v-2.4h2.3c.9 0 1.4.4 1.4 1.2s-.6 1.2-1.5 1.2zM16.6 9.7c-2 0-3.4 1.5-3.4 3.5s1.3 3.5 3.5 3.5c1.6 0 2.7-.7 3.2-2.2h-1.8c-.2.5-.6.7-1.3.7-.9 0-1.4-.5-1.5-1.4h4.8c.2-2.2-1-4.1-3.5-4.1zm-1.5 2.8c.1-.8.6-1.3 1.4-1.3.9 0 1.3.5 1.4 1.3h-2.8zM14.7 8.1h4.3v1.1h-4.3z"/></svg>
+      </a>
+    </div>
+
+    <!-- واتساب مباشر -->
+    <span class="header-cta">
+      <a class="btn btn-solid btn-sm" href="https://wa.me/213540249969?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%D9%91%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D9%87%D9%88%D9%8A%D8%A9%20%D8%B9%D9%84%D8%A7%D9%85%D8%AA%D9%8A%20%D9%85%D8%B9%20ZENITH%20studio." target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.057 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.82 9.82 0 001.51 5.26l-.999 3.648 3.978-1.107zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <span class="btn-text">تواصل</span>
+      </a>
+    </span>
+  </div>
+</header>
+
+<!-- ============================ الواجهة الافتتاحية ============================ -->
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-inner">
+    <p class="eyebrow" data-reveal>استوديو هويات بصرية — Brand Identity Studio</p>
+
+    <h1 class="hero-title" data-reveal data-d="1">
+      كل علامةٍ تستحقّ
+      <span class="em">عالَماً بصرياً</span>
+      لا يُشبه غيره.
+    </h1>
+
+    <p class="hero-dynamic" data-reveal data-d="2">
+      نصمّم هويةَ <span class="rotator" id="rotator">العطور</span>
+    </p>
+
+    <p class="hero-sub" data-reveal data-d="2">
+      من الفكرة الأولى إلى آخر تفصيلة في التنفيذ — نبني للعلامات قصةً تُروى
+      وحضوراً لا يُنسى عبر هويةٍ بصريةٍ متكاملة.
+    </p>
+
+    <div class="hero-actions" data-reveal data-d="3">
+      <a class="btn btn-solid" href="#work">
+        شاهد الأعمال
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 10l6 6 6-6"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="#contact">لنبدأ مشروعاً</a>
+      <span class="availability"><span class="dot"></span> متاح لمشاريع جديدة · 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ الأعمال ============================ -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-reveal>أعمالٌ مختارة — Selected Work</p>
+      <h2 class="section-title" data-reveal data-d="1">كل علامةٍ عالَمٌ قائمٌ بذاته.</h2>
+      <p class="section-intro" data-reveal data-d="2">
+        أبرز أعمالنا — كل هويةٍ بُنيت من الصفر، من الإلهام إلى التنفيذ. اضغط أيّ صورة لمشاهدتها كاملة.
+      </p>
+    </div>
+
+    <!-- ================= دراسة حالة مميّزة: The Root ================= -->
+    <article class="featured" data-reveal>
+      <div class="featured-info">
+        <p class="eyebrow">دراسة حالة — Case Study 01</p>
+        <h3 class="feat-title">مقهى الجذر المستدام <span class="lat">— The Root</span></h3>
+        <p class="feat-desc">
+          هويةٌ بصرية كاملة لمقهىً مستدام: شعارٌ يجمع الجذور بالنمو، وتغليفٌ من خاماتٍ صديقة للبيئة،
+          ومنيو وحضورٌ بصري يعكس روح المكان الطبيعية الهادئة.
+        </p>
+        <div class="feat-tags">
+          <span class="tag">Logo &amp; Identity</span>
+          <span class="tag">Packaging</span>
+          <span class="tag">Menu Design</span>
+          <span class="tag">Art Direction</span>
+        </div>
+        <div class="palette" aria-label="ألوان الهوية">
+          <span class="label">Palette</span>
+          <span class="swatch" style="--c:#3B4A2C"></span>
+          <span class="swatch" style="--c:#8A9A6B"></span>
+          <span class="swatch" style="--c:#B0703F"></span>
+          <span class="swatch" style="--c:#E9DFCB"></span>
+          <span class="swatch" style="--c:#5A3D2B"></span>
+        </div>
+        <!-- ✦ ضع رابط قصة المشروع على Behance هنا -->
+        <a class="btn btn-ghost" href="https://www.behance.net/" target="_blank" rel="noopener">
+          شاهد القصة الكاملة
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 6l-6 6 6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="feat-media">
+        <!-- الصورة الرئيسية: التغليف والأكواب -->
+        <img class="feat-hero" data-zoom src="images/root-01-hero-packaging.webp" alt="The Root — تغليف القهوة والأكواب البيئية" loading="lazy" />
+        <div class="feat-thumbs">
+          <img class="feat-thumb" data-zoom src="images/root-02-logo.webp"      alt="The Root — الشعار" loading="lazy" />
+          <img class="feat-thumb" data-zoom src="images/root-03-moodboard.webp" alt="The Root — لوحة الإلهام والألوان" loading="lazy" />
+          <img class="feat-thumb" data-zoom src="images/root-04-menu.webp"      alt="The Root — تصميم المنيو" loading="lazy" />
+        </div>
+      </div>
+    </article>
+
+    <!-- ================= دراسة حالة: Blaze BBQ ================= -->
+    <article class="featured" style="--card-accent:#C9501E;" data-reveal>
+      <div class="featured-info">
+        <p class="eyebrow">دراسة حالة — Case Study 02</p>
+        <h3 class="feat-title">«بلايز» للمشاوي <span class="lat">— Blaze BBQ</span></h3>
+        <p class="feat-desc">
+          هويةٌ ناريةٌ متكاملة لمطعم مشاوٍ بطابعٍ أمريكيّ جريء؛ شعارٌ يشتعل بالجمر ونظامٌ بصريّ
+          موحَّد يمتدّ من زيّ فريق الشواء إلى التغليف والمناديل والقبعات — حضورٌ يُشعل الشهية
+          ويُثبِّت العلامة في الذاكرة من أوّل شرارة.
+        </p>
+        <div class="feat-tags">
+          <span class="tag">Logo &amp; Identity</span>
+          <span class="tag">Brand Uniforms</span>
+          <span class="tag">Packaging</span>
+          <span class="tag">Social &amp; Menu</span>
+        </div>
+        <div class="palette" aria-label="ألوان الهوية">
+          <span class="label">Palette</span>
+          <span class="swatch" style="--c:#15100D"></span>
+          <span class="swatch" style="--c:#C9501E"></span>
+          <span class="swatch" style="--c:#E8772D"></span>
+          <span class="swatch" style="--c:#7A2E1A"></span>
+          <span class="swatch" style="--c:#D8A24C"></span>
+        </div>
+      </div>
+
+      <div class="feat-media">
+        <img class="feat-hero is-tall" data-zoom src="images/blaze-01-hero-ad.webp" alt="بلايز — تصميم إعلانيّ للمنصّات" loading="lazy" />
+        <div class="feat-thumbs is-auto">
+          <img class="feat-thumb is-portrait" data-zoom src="images/blaze-02-logo.webp" alt="بلايز — الشعار الناري" loading="lazy" />
+          <img class="feat-thumb is-portrait" data-zoom src="images/blaze-03-uniform.webp" alt="بلايز — زيّ فريق الشواء" loading="lazy" />
+          <img class="feat-thumb is-portrait" data-zoom src="images/blaze-04-apron.webp" alt="بلايز — مريول الشواء" loading="lazy" />
+          <img class="feat-thumb is-portrait" data-zoom src="images/blaze-05-cap-front.webp" alt="بلايز — القبعة (أمامية)" loading="lazy" />
+          <img class="feat-thumb is-portrait" data-zoom src="images/blaze-06-cap-side.webp" alt="بلايز — القبعة (جانبية)" loading="lazy" />
+          <img class="feat-thumb is-portrait" data-zoom src="images/blaze-07-napkins.webp" alt="بلايز — المناديل" loading="lazy" />
+          <img class="feat-thumb is-portrait" data-zoom src="images/blaze-08-packaging.webp" alt="بلايز — علب التغليف" loading="lazy" />
+        </div>
+      </div>
+    </article>
+
+    <!-- ================= دراسة حالة: Éclat Noir ================= -->
+    <article class="featured" style="--card-accent:#C9A24B;" data-reveal>
+      <div class="featured-info">
+        <p class="eyebrow">دراسة حالة — Case Study 03</p>
+        <h3 class="feat-title">«إيكلا نوار» <span class="lat">— Éclat Noir Paris</span></h3>
+        <p class="feat-desc">
+          هويةٌ بصريةٌ لعطرٍ فرنسيّ فاخر تختزل الأناقة في ثنائية الأسود والذهب؛ شعارٌ أحاديّ راقٍ
+          بحرفَي (EN)، وقارورةٌ وعلبةٌ بلمسةٍ باريسية صافية — فخامةٌ هادئةٌ تُروى دون صخب.
+        </p>
+        <div class="feat-tags">
+          <span class="tag">Logo &amp; Monogram</span>
+          <span class="tag">Luxury Packaging</span>
+          <span class="tag">Bottle Design</span>
+          <span class="tag">Art Direction</span>
+        </div>
+        <div class="palette" aria-label="ألوان الهوية">
+          <span class="label">Palette</span>
+          <span class="swatch" style="--c:#0A0A0A"></span>
+          <span class="swatch" style="--c:#C9A24B"></span>
+          <span class="swatch" style="--c:#D8BE72"></span>
+          <span class="swatch" style="--c:#8A6D2F"></span>
+          <span class="swatch" style="--c:#ECE3C8"></span>
+        </div>
+      </div>
+
+      <div class="feat-media">
+        <img class="feat-hero" data-zoom src="images/eclat-01-hero-bottle-box.webp" alt="إيكلا نوار — القارورة والعلبة" loading="lazy" />
+        <div class="feat-thumbs is-auto">
+          <img class="feat-thumb" data-zoom src="images/eclat-02-bottle-front.webp" alt="إيكلا نوار — القارورة (أمامية)" loading="lazy" />
+          <img class="feat-thumb" data-zoom src="images/eclat-03-bottle-detail.webp" alt="إيكلا نوار — تفاصيل القارورة" loading="lazy" />
+          <img class="feat-thumb" data-zoom src="images/eclat-04-bottle-side.webp" alt="إيكلا نوار — القارورة من الجانب" loading="lazy" />
+          <img class="feat-thumb" data-zoom src="images/eclat-05-monogram.webp" alt="إيكلا نوار — الشعار الأحاديّ EN" loading="lazy" />
+        </div>
+      </div>
+    </article>
+
+    <!-- ╔═══════════════════════════════════════════════════════════════╗
+         ║  لإضافة مشروعٍ جديد لاحقاً: انسخ كتلة <article class="featured"> ║
+         ║  أعلاه، ثمّ غيّر: اللون (--card-accent) · العنوان · الوصف ·     ║
+         ║  الوسوم · الألوان (swatch) · الصور (src) والنصوص البديلة (alt). ║
+         ╚═══════════════════════════════════════════════════════════════╝ -->
+  </div>
+</section>
+
+<!-- ============================ الأسلوب ============================ -->
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-reveal>كيف نعمل — The Process</p>
+      <h2 class="section-title" data-reveal data-d="1">من الإلهام إلى التنفيذ.</h2>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">01</div>
+        <h3 class="step-title">اكتشاف</h3>
+        <p class="step-text">نغوص في العلامة وسوقها وجمهورها قبل رسم أيّ خط، لنفهم ما يجعلها مختلفة.</p>
+      </div>
+      <div class="step" data-reveal data-d="1">
+        <div class="step-num">02</div>
+        <h3 class="step-title">تصوّر</h3>
+        <p class="step-text">نبني الفكرة الكبرى والاتجاه البصري — اللون والخط والروح التي تميّز الهوية.</p>
+      </div>
+      <div class="step" data-reveal data-d="2">
+        <div class="step-num">03</div>
+        <h3 class="step-title">تنفيذ</h3>
+        <p class="step-text">نُخرج الهوية كاملةً وجاهزةً للحياة، عبر كل نقطة تماسٍ مع العميل.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ تواصل ============================ -->
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-reveal>لنبدأ — Get in touch</p>
+      <h2 class="contact-title" data-reveal data-d="1">لنبنِ هويةَ علامتك القادمة.</h2>
+      <p class="contact-sub" data-reveal data-d="2">
+        مشروعٌ جديد في ذهنك؟ تحدّث معنا مباشرةً، ولنحوّل فكرتك إلى علامةٍ لا تُنسى.
+      </p>
+    </div>
+
+    <div class="contact-actions" data-reveal data-d="2">
+      <a class="btn btn-solid" href="https://wa.me/213540249969?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20ZENITH%20studio%D8%8C%20%D8%A3%D9%88%D8%AF%D9%91%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D9%87%D9%88%D9%8A%D8%A9%20%D8%B9%D9%84%D8%A7%D9%85%D8%AA%D9%8A%20%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.057 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.82 9.82 0 001.51 5.26l-.999 3.648 3.978-1.107zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        تواصل عبر واتساب
+      </a>
+      <a class="btn btn-ghost" href="https://www.instagram.com/zenith.mi2526" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+        إنستغرام
+      </a>
+      <a class="btn btn-ghost" href="https://www.tiktok.com/@zenith6691" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.3v12.43a2.59 2.59 0 1 1-2.59-2.59c.27 0 .53.04.78.12V9.62a5.96 5.96 0 0 0-.78-.05 5.9 5.9 0 1 0 5.9 5.9V9.01a7.5 7.5 0 0 0 4.28 1.34V7.05a4.28 4.28 0 0 1-3.23-1.23z"/></svg>
+        تيك توك
+      </a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/zenith-studio-46a124418" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 9.67H5.67V18h2.67V9.67zM7 5.5a1.55 1.55 0 100 3.1 1.55 1.55 0 000-3.1zM18.33 18v-4.57c0-2.45-1.31-3.59-3.06-3.59-1.41 0-2.04.78-2.39 1.33v-1.14H10.2V18h2.67v-4.39c0-1.16.22-2.28 1.65-2.28 1.41 0 1.43 1.32 1.43 2.36V18h2.68z"/></svg>
+        لينكدإن
+      </a>
+      <!-- ✦ ضع رابط ملفك على Behance: https://www.behance.net/اسم_المستخدم -->
+      <a class="btn btn-ghost" href="https://www.behance.net/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.2 11.3c.8-.4 1.2-1 1.2-1.9 0-1.7-1.3-2.4-3-2.4H2v9.9h4.5c1.9 0 3.4-.8 3.4-2.8 0-1.2-.6-2.1-1.7-2.4zM4.1 8.6h2c.7 0 1.3.2 1.3 1s-.5 1.1-1.3 1.1H4.1V8.6zm2.2 6.2H4.1v-2.4h2.3c.9 0 1.4.4 1.4 1.2s-.6 1.2-1.5 1.2zM16.6 9.7c-2 0-3.4 1.5-3.4 3.5s1.3 3.5 3.5 3.5c1.6 0 2.7-.7 3.2-2.2h-1.8c-.2.5-.6.7-1.3.7-.9 0-1.4-.5-1.5-1.4h4.8c.2-2.2-1-4.1-3.5-4.1zm-1.5 2.8c.1-.8.6-1.3 1.4-1.3.9 0 1.3.5 1.4 1.3h-2.8zM14.7 8.1h4.3v1.1h-4.3z"/></svg>
+        Behance
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================ الفوتر ============================ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <p class="footer-tag">هويات بصرية تُروى — <span class="lat">Zenith studio</span></p>
+      <div class="footer-social">
+        <a class="icon-btn" href="https://www.instagram.com/zenith.mi2526" target="_blank" rel="noopener" aria-label="إنستغرام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.tiktok.com/@zenith6691" target="_blank" rel="noopener" aria-label="تيك توك / TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.3v12.43a2.59 2.59 0 1 1-2.59-2.59c.27 0 .53.04.78.12V9.62a5.96 5.96 0 0 0-.78-.05 5.9 5.9 0 1 0 5.9 5.9V9.01a7.5 7.5 0 0 0 4.28 1.34V7.05a4.28 4.28 0 0 1-3.23-1.23z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/zenith-studio-46a124418" target="_blank" rel="noopener" aria-label="لينكدإن">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 9.67H5.67V18h2.67V9.67zM7 5.5a1.55 1.55 0 100 3.1 1.55 1.55 0 000-3.1zM18.33 18v-4.57c0-2.45-1.31-3.59-3.06-3.59-1.41 0-2.04.78-2.39 1.33v-1.14H10.2V18h2.67v-4.39c0-1.16.22-2.28 1.65-2.28 1.41 0 1.43 1.32 1.43 2.36V18h2.68z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.behance.net/" target="_blank" rel="noopener" aria-label="بيهانس">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.2 11.3c.8-.4 1.2-1 1.2-1.9 0-1.7-1.3-2.4-3-2.4H2v9.9h4.5c1.9 0 3.4-.8 3.4-2.8 0-1.2-.6-2.1-1.7-2.4zM4.1 8.6h2c.7 0 1.3.2 1.3 1s-.5 1.1-1.3 1.1H4.1V8.6zm2.2 6.2H4.1v-2.4h2.3c.9 0 1.4.4 1.4 1.2s-.6 1.2-1.5 1.2zM16.6 9.7c-2 0-3.4 1.5-3.4 3.5s1.3 3.5 3.5 3.5c1.6 0 2.7-.7 3.2-2.2h-1.8c-.2.5-.6.7-1.3.7-.9 0-1.4-.5-1.5-1.4h4.8c.2-2.2-1-4.1-3.5-4.1zm-1.5 2.8c.1-.8.6-1.3 1.4-1.3.9 0 1.3.5 1.4 1.3h-2.8zM14.7 8.1h4.3v1.1h-4.3z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://wa.me/213540249969?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20ZENITH%20studio%D8%8C%20%D8%A3%D9%88%D8%AF%D9%91%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D9%87%D9%88%D9%8A%D8%A9%20%D8%B9%D9%84%D8%A7%D9%85%D8%AA%D9%8A%20%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9." target="_blank" rel="noopener" aria-label="واتساب">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.057 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.82 9.82 0 001.51 5.26l-.999 3.648 3.978-1.107zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="year">2026</span> ZENITH studio — جميع الحقوق محفوظة</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================ صندوق التكبير ============================ -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="عرض الصورة">
+  <button class="lb-close" id="lbClose" aria-label="إغلاق">&times;</button>
+  <img class="lb-img" id="lbImg" src="" alt="" />
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* السنة في الفوتر */
+  var yEl = document.getElementById("year");
+  if (yEl) yEl.textContent = new Date().getFullYear();
+
+  /* خلفية الهيدر عند التمرير */
+  var header = document.getElementById("header");
+  function onScroll(){
+    if (window.scrollY > 40) header.classList.add("scrolled");
+    else header.classList.remove("scrolled");
+  }
+  window.addEventListener("scroll", onScroll, { passive:true });
+  onScroll();
+
+  /* الكلمة المتبدّلة في الواجهة */
+  var rot = document.getElementById("rotator");
+  var words = [
+    { t:"العطور",  c:"#CBB081" },
+    { t:"المطاعم", c:"#C95E38" },
+    { t:"المقاهي", c:"#86A06F" },
+    { t:"علامتك",  c:"#ECE7DE" }
+  ];
+  if (rot && !reduce){
+    var i = 0;
+    setInterval(function(){
+      rot.classList.add("swap");
+      setTimeout(function(){
+        i = (i + 1) % words.length;
+        rot.textContent = words[i].t;
+        rot.style.color = words[i].c;
+        rot.classList.remove("swap");
+      }, 450);
+    }, 2400);
+  }
+
+  /* الكشف عند التمرير */
+  var items = document.querySelectorAll("[data-reveal]");
+  if (reduce || !("IntersectionObserver" in window)){
+    items.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold:0.12, rootMargin:"0px 0px -8% 0px" });
+    items.forEach(function(el){ io.observe(el); });
+  }
+
+  /* صندوق التكبير (Lightbox) */
+  var lb = document.getElementById("lightbox");
+  var lbImg = document.getElementById("lbImg");
+  var lbClose = document.getElementById("lbClose");
+  function openLb(src, alt){
+    lbImg.src = src; lbImg.alt = alt || "";
+    lb.classList.add("open"); lb.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+  }
+  function closeLb(){
+    lb.classList.remove("open"); lb.setAttribute("aria-hidden","true");
+    document.body.style.overflow = ""; lbImg.src = "";
+  }
+  document.querySelectorAll("[data-zoom]").forEach(function(img){
+    img.addEventListener("click", function(){ openLb(img.src, img.alt); });
+  });
+  lbClose.addEventListener("click", closeLb);
+  lb.addEventListener("click", function(e){ if (e.target === lb) closeLb(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && lb.classList.contains("open")) closeLb(); });
+})();
+</script>
+</body>
+</html>
